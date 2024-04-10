@@ -1,0 +1,27 @@
+.HeaderWrapper {
+    width: 100vw;
+    background-color: #161a30;
+    height: 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .LinkContainer {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-right: 2rem;
+        a {
+            background-color: #31304d;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            color: #f0ece5;
+            border-radius: 2rem;
+            &:hover {
+                background-color: #f0ece5;
+                color: #161a30;
+                text-decoration: none;
+            }
+        }
+    }
+}
