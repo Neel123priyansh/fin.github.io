@@ -6,20 +6,27 @@ from .serializers import UserSerializer
 from rest_framework import status
 from .serializers import UserDetailSerializer
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError
+import logging
 
 # Create your views here.
 
+logger = logging.getLogger(__name__)
 
-@api_view(['GET'])
+
+@api_view(['POST'])
 def login(request):
     try:
+        logger.info("Requettryu",request)
         user = User.objects.get(username=request.data['user']['username'])
+        logger.info(user)
         if user.check_password(request.data['user']['password']):
-            return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
+            token = Token.objects.create(user=User.objects.get(username=request.data['user']['username']))
+            return Response({'message': 'Login successful','token':token.key}, status=status.HTTP_200_OK)
         else:
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-    except KeyError:
-        return Response({'message': 'Invalid request'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'message': 'Invalid credentials'}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+    except User.DoesNotExist:
+        return Response({'message': 'User Does Not Exist'}, status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
     
 
 
